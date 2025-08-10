@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CapCut 스타일 영상 자동화 프로토타입</title>
+<style>
+  body {
+    margin: 0; background: #121212; color: #eee; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  header {
+    height: 50px; background: #1f1f1f; display: flex; align-items: center; padding: 0 15px;
+  }
+  nav {
+    width: 60px; background: #222; height: calc(100vh - 50px); float: left;
+    display: flex; flex-direction: column; align-items: center; padding-top: 10px;
+  }
+  nav button {
+    margin: 10px 0; background: #333; border: none; color: #eee; width: 40px; height: 40px; border-radius: 6px; cursor: pointer;
+  }
+  #workspace {
+    margin-left: 60px; margin-top: 50px; padding: 15px; min-height: calc(100vh - 50px); background: #181818;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  #videoPreview {
+    width: 480px; height: 270px; background: #333; margin-bottom: 15px; border-radius: 6px;
+  }
+  #controls {
+    margin-bottom: 20px;
+  }
+  #textInput {
+    width: 480px; height: 80px; background: #222; color: #eee; border: none; padding: 10px; border-radius: 6px; resize: none;
+    font-size: 16px;
+  }
+  footer {
+    height: 40px; background: #1f1f1f; text-align: center; line-height: 40px; color: #888;
+    position: fixed; bottom: 0; width: 100%;
+  }
+  input[type=file] {
+    display: none;
+  }
+  label.upload-btn {
+    background: #333; color: #eee; padding: 8px 15px; border-radius: 6px; cursor: pointer; margin: 0 10px;
+  }
+  button.action-btn {
+    background: #4caf50; border: none; padding: 8px 20px; border-radius: 6px; color: white; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>CapCut 스타일 영상 자동화</h1>
+</header>
+<nav>
+  <button title="파일 업로드" id="uploadBtn">📁</button>
+  <button title="미리보기" id="previewBtn">▶️</button>
+</nav>
+<div id="workspace">
+  <video id="videoPreview" controls></video>
+  <div id="controls">
+    <label class="upload-btn" for="audioInput">음악 선택</label>
+    <input type="file" id="audioInput" accept="audio/*" />
+    <label class="upload-btn" for="imageInput">이미지 선택</label>
+    <input type="file" id="imageInput" accept="image/*" />
+  </div>
+  <textarea id="textInput" placeholder="자막을 여기에 입력하세요..."></textarea>
+</div>
+<footer>© 2025 자동 영상 제작</footer>
+
+<script>
+  const audioInput = document.getElementById('audioInput');
+  const imageInput = document.getElementById('imageInput');
+  const videoPreview = document.getElementById('videoPreview');
+  const textInput = document.getElementById('textInput');
+  const previewBtn = document.getElementById('previewBtn');
+
+  let audioFile, imageFile;
+
+  audioInput.addEventListener('change', e => {
+    audioFile = e.target.files[0];
+    console.log('음악 파일 선택:', audioFile.name);
+  });
+
+  imageInput.addEventListener('change', e => {
+    imageFile = e.target.files[0];
+    console.log('이미지 파일 선택:', imageFile.name);
+  });
+
+  previewBtn.addEventListener('click', () => {
+    if (!audioFile || !imageFile) {
+      alert('음악과 이미지를 모두 선택해주세요!');
+      return;
+    }
+    // 여기선 실제 영상 생성은 안 되고, 선택한 이미지로 영상처럼 미리보기만 보여줌
+    const imageURL = URL.createObjectURL(imageFile);
+    videoPreview.src = imageURL;
+    videoPreview.play();
+  });
+</script>
+</body>
+</html>
